@@ -1,6 +1,6 @@
 {
     "name": "wppoland/surcharge",
-    "description": "Add fixed or percentage checkout fees, optionally conditional on cart, payment or country.",
+    "description": "Add fixed or percentage fees to the WooCommerce cart and checkout.",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
     "require": {

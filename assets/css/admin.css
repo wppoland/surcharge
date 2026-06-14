@@ -169,41 +169,11 @@
 	display: inline-block;
 }
 
-.surcharge-fee__amount-suffix {
-	margin-inline-start: 0.35rem;
-	color: var(--sc-text-muted);
-	font-size: 0.85rem;
-}
-
 .surcharge-fee__field input:focus,
 .surcharge-fee__field select:focus {
 	border-color: var(--sc-accent);
 	box-shadow: 0 0 0 1px var(--sc-accent);
 	outline: 2px solid transparent;
-}
-
-/* ---- Conditions block ------------------------------------------------ */
-
-.surcharge-fee__conditions {
-	margin-top: 0.9rem;
-	padding-top: 0.9rem;
-	border-top: 1px dashed var(--sc-border);
-}
-
-.surcharge-fee__conditions-title {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.4rem;
-	margin-bottom: 0.5rem;
-	font-size: 0.72rem;
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
-	color: var(--sc-text-muted);
-}
-
-.surcharge-fee__field--countries {
-	grid-column: 1 / -1;
 }
 
 /* ---- Row footer ------------------------------------------------------ */
@@ -241,73 +211,6 @@
 	gap: 0.35rem;
 }
 
-/* ---- Label + help affordance ----------------------------------------- */
-
-.surcharge-admin__label {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.4rem;
-}
-
-.surcharge-help {
-	all: unset;
-	display: inline-grid;
-	place-items: center;
-	inline-size: 18px;
-	block-size: 18px;
-	border-radius: 50%;
-	background: var(--sc-surface-muted);
-	border: 1px solid var(--sc-border);
-	color: var(--sc-text-muted);
-	font-size: 11px;
-	font-weight: 700;
-	cursor: help;
-	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-
-.surcharge-help:hover,
-.surcharge-help:focus-visible {
-	background: var(--sc-accent);
-	border-color: var(--sc-accent);
-	color: #fff;
-}
-
-.surcharge-help:focus-visible {
-	outline: 2px solid var(--sc-accent-strong);
-	outline-offset: 2px;
-}
-
-.surcharge-tooltip {
-	max-inline-size: 280px;
-	margin: 0;
-	padding: 0.6rem 0.75rem;
-	font-size: 0.82rem;
-	line-height: 1.45;
-	color: #fff;
-	background: #1d2327;
-	border: 0;
-	border-radius: var(--sc-radius-sm);
-	box-shadow: 0 6px 24px rgba(16, 24, 40, 0.22);
-}
-
-.surcharge-tooltip::backdrop {
-	background: transparent;
-}
-
-.surcharge-help-fallback {
-	display: block;
-	margin-top: 0.35rem;
-	color: var(--sc-text-muted);
-	font-style: italic;
-	font-size: 0.8rem;
-	font-weight: 400;
-}
-
-/* When JS upgrades the help into a tooltip, hide the inline fallback. */
-.surcharge-admin.is-enhanced .surcharge-help-fallback {
-	display: none;
-}
-
 /* ---- Dark mode ------------------------------------------------------- */
 
 @media (prefers-color-scheme: dark) {
@@ -329,10 +232,6 @@
 
 	.surcharge-admin__status--off {
 		background: #2a2e35;
-	}
-
-	.surcharge-tooltip {
-		background: #0f1115;
 	}
 }
 

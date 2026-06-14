@@ -81,7 +81,7 @@ final class FeeRepository
      * Used by both load and save paths so the stored data is always consistent.
      *
      * @param array<string, mixed> $row
-     * @return array{label:string,type:string,amount:float,taxable:bool,min_cart_total:float,payment_method:string,countries:string[],enabled:bool}
+     * @return array{label:string,type:string,amount:float,taxable:bool,enabled:bool}
      */
     public function normalizeFee(array $row): array
     {
@@ -89,18 +89,6 @@ final class FeeRepository
         if (! in_array($type, [Fee::TYPE_FIXED, Fee::TYPE_PERCENT], true)) {
             $type = Fee::TYPE_FIXED;
         }
-
-        $countries = $row['countries'] ?? [];
-        if (is_string($countries)) {
-            $countries = array_map('trim', explode(',', $countries));
-        }
-        if (! is_array($countries)) {
-            $countries = [];
-        }
-        $countries = array_values(array_filter(array_map(
-            static fn ($c): string => strtoupper(substr((string) $c, 0, 2)),
-            $countries,
-        )));
 
         $amount = (float) ($row['amount'] ?? 0);
         if (Fee::TYPE_PERCENT === $type) {
@@ -110,19 +98,16 @@ final class FeeRepository
         }
 
         return [
-            'label'          => (string) ($row['label'] ?? ''),
-            'type'           => $type,
-            'amount'         => $amount,
-            'taxable'        => ! empty($row['taxable']),
-            'min_cart_total' => max(0.0, (float) ($row['min_cart_total'] ?? 0)),
-            'payment_method' => (string) ($row['payment_method'] ?? ''),
-            'countries'      => $countries,
-            'enabled'        => ! empty($row['enabled']),
+            'label'   => (string) ($row['label'] ?? ''),
+            'type'    => $type,
+            'amount'  => $amount,
+            'taxable' => ! empty($row['taxable']),
+            'enabled' => ! empty($row['enabled']),
         ];
     }
 
     /**
-     * @param array{label:string,type:string,amount:float,taxable:bool,min_cart_total:float,payment_method:string,countries:string[],enabled:bool} $row
+     * @param array{label:string,type:string,amount:float,taxable:bool,enabled:bool} $row
      */
     private function hydrate(array $row): Fee
     {
@@ -131,9 +116,6 @@ final class FeeRepository
             $row['type'],
             $row['amount'],
             $row['taxable'],
-            $row['min_cart_total'],
-            $row['payment_method'],
-            $row['countries'],
             $row['enabled'],
         );
     }

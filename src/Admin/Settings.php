@@ -14,10 +14,9 @@ defined('ABSPATH') || exit;
  * Admin settings page registered as a WooCommerce submenu ("Surcharge").
  *
  * Renders the master toggle plus a repeatable fees table (label, type, amount,
- * taxable, and conditions: minimum cart total, payment method, shipping country).
- * All output is escaped; all input is sanitised on save through FeeRepository's
- * canonical shape. The save capability is aligned to manage_woocommerce so shop
- * managers (not just admins) can save.
+ * taxable). All output is escaped; all input is sanitised on save through
+ * FeeRepository's canonical shape. The save capability is aligned to
+ * manage_woocommerce so shop managers (not just admins) can save.
  */
 final class Settings implements HasHooks
 {
@@ -85,34 +84,15 @@ final class Settings implements HasHooks
         );
     }
 
-    /**
-     * Accessible inline-help affordance: a "?" button wired to a tooltip via
-     * aria-describedby, with a visible fallback span when JS/Popover is absent.
-     */
-    private function help(string $id, string $text): void
-    {
-        printf(
-            '<button type="button" class="surcharge-help" aria-describedby="%1$s" aria-label="%2$s">?</button>'
-                . '<span id="%1$s" role="tooltip" popover class="surcharge-tooltip">%3$s</span>'
-                . '<span class="surcharge-help-fallback">%3$s</span>',
-            esc_attr($id),
-            esc_attr__('More information', 'surcharge'),
-            esc_html($text),
-        );
-    }
-
     public function renderPage(): void
     {
         if (! current_user_can('manage_woocommerce')) {
             return;
         }
 
-        $option   = FeeRepository::OPTION;
-        $enabled  = $this->repository->isEnabled();
-        $fees     = $this->repository->all();
-        $currency = function_exists('get_woocommerce_currency_symbol')
-            ? wp_strip_all_tags(get_woocommerce_currency_symbol())
-            : '';
+        $option  = FeeRepository::OPTION;
+        $enabled = $this->repository->isEnabled();
+        $fees    = $this->repository->all();
         ?>
         <div class="wrap surcharge-admin">
             <h1>
@@ -127,8 +107,8 @@ final class Settings implements HasHooks
             <div class="surcharge-admin__intro">
                 <span class="surcharge-admin__intro-icon" aria-hidden="true">&#43;</span>
                 <div>
-                    <h2><?php esc_html_e('Add checkout fees in three steps', 'surcharge'); ?></h2>
-                    <p><?php esc_html_e('1. Add a fee row below. 2. Choose a fixed amount or a percentage of the cart. 3. Optionally limit it to a minimum cart total, a payment method or a shipping country. Fees appear in the cart, at checkout and on the order.', 'surcharge'); ?></p>
+                    <h2><?php esc_html_e('Add checkout fees in two steps', 'surcharge'); ?></h2>
+                    <p><?php esc_html_e('1. Add a fee row below. 2. Choose a fixed amount or a percentage of the cart. Fees appear in the cart, at checkout and on the order.', 'surcharge'); ?></p>
                 </div>
             </div>
 
@@ -141,16 +121,14 @@ final class Settings implements HasHooks
                         <tbody>
                             <tr>
                                 <th scope="row">
-                                    <span class="surcharge-admin__label">
-                                        <?php esc_html_e('Enable fees', 'surcharge'); ?>
-                                        <?php $this->help('surcharge-help-enabled', __('Master switch. When off, no fees are added to any cart, regardless of the rows below. Turn this off to pause all fees without deleting them.', 'surcharge')); ?>
-                                    </span>
+                                    <?php esc_html_e('Enable fees', 'surcharge'); ?>
                                 </th>
                                 <td>
                                     <label for="surcharge_enabled">
                                         <input type="checkbox" id="surcharge_enabled" name="<?php echo esc_attr($option); ?>[enabled]" value="1" <?php checked($enabled, true); ?> />
                                         <?php esc_html_e('Apply the fees below at cart and checkout.', 'surcharge'); ?>
                                     </label>
+                                    <p class="description"><?php esc_html_e('Master switch. When off, no fees are added to any cart, regardless of the rows below.', 'surcharge'); ?></p>
                                 </td>
                             </tr>
                         </tbody>
@@ -160,11 +138,10 @@ final class Settings implements HasHooks
                 <div class="surcharge-admin__card">
                     <div class="surcharge-admin__card-head">
                         <h2><?php esc_html_e('Fees', 'surcharge'); ?></h2>
-                        <p class="surcharge-admin__card-hint"><?php esc_html_e('Each row is one fee. Leave a condition blank to ignore it. A fee with no label is skipped.', 'surcharge'); ?></p>
+                        <p class="surcharge-admin__card-hint"><?php esc_html_e('Each row is one fee. A fee with no label is skipped.', 'surcharge'); ?></p>
                     </div>
 
                     <div class="surcharge-fees" id="surcharge-fees"
-                        data-currency="<?php echo esc_attr($currency); ?>"
                         data-add-label="<?php esc_attr_e('Add fee', 'surcharge'); ?>">
                         <?php
                         if (empty($fees)) {
@@ -200,13 +177,10 @@ final class Settings implements HasHooks
         $base = $option . '[fees][' . $index . ']';
         $uid  = 'surcharge-fee-' . $index;
 
-        $label    = $fee?->label ?? '';
-        $type     = $fee?->type ?? Fee::TYPE_FIXED;
-        $amount   = null !== $fee ? (string) $fee->amount : '';
-        $taxable  = $fee?->taxable ?? false;
-        $minTotal = null !== $fee && $fee->minCartTotal > 0 ? (string) $fee->minCartTotal : '';
-        $gateway  = $fee?->paymentMethod ?? '';
-        $countries = null !== $fee ? implode(', ', $fee->countries) : '';
+        $label      = $fee?->label ?? '';
+        $type       = $fee?->type ?? Fee::TYPE_FIXED;
+        $amount     = null !== $fee ? (string) $fee->amount : '';
+        $taxable    = $fee?->taxable ?? false;
         $rowEnabled = $fee?->enabled ?? true;
         ?>
         <fieldset class="surcharge-fee" data-index="<?php echo esc_attr((string) $index); ?>">
@@ -229,47 +203,14 @@ final class Settings implements HasHooks
                 <p class="surcharge-fee__field">
                     <label for="<?php echo esc_attr($uid . '-amount'); ?>"><?php esc_html_e('Amount', 'surcharge'); ?></label>
                     <input type="number" step="0.01" min="0" id="<?php echo esc_attr($uid . '-amount'); ?>" name="<?php echo esc_attr($base . '[amount]'); ?>" value="<?php echo esc_attr($amount); ?>" class="small-text surcharge-fee__amount" />
-                    <span class="surcharge-fee__amount-suffix" aria-hidden="true"></span>
                 </p>
 
                 <p class="surcharge-fee__field surcharge-fee__field--check">
                     <label for="<?php echo esc_attr($uid . '-taxable'); ?>">
                         <input type="checkbox" id="<?php echo esc_attr($uid . '-taxable'); ?>" name="<?php echo esc_attr($base . '[taxable]'); ?>" value="1" <?php checked($taxable, true); ?> />
                         <?php esc_html_e('Taxable', 'surcharge'); ?>
-                        <?php $this->help($uid . '-help-taxable', __('When ticked, WooCommerce applies tax to this fee using your standard tax rules.', 'surcharge')); ?>
                     </label>
                 </p>
-            </div>
-
-            <div class="surcharge-fee__conditions">
-                <span class="surcharge-fee__conditions-title">
-                    <?php esc_html_e('Conditions', 'surcharge'); ?>
-                    <?php $this->help($uid . '-help-cond', __('Optional. The fee only applies when every filled-in condition is met. Leave a field blank to ignore that condition.', 'surcharge')); ?>
-                </span>
-                <div class="surcharge-fee__grid">
-                    <p class="surcharge-fee__field">
-                        <label for="<?php echo esc_attr($uid . '-min'); ?>"><?php esc_html_e('Minimum cart total', 'surcharge'); ?></label>
-                        <input type="number" step="0.01" min="0" id="<?php echo esc_attr($uid . '-min'); ?>" name="<?php echo esc_attr($base . '[min_cart_total]'); ?>" value="<?php echo esc_attr($minTotal); ?>" class="small-text" placeholder="0.00" />
-                    </p>
-
-                    <p class="surcharge-fee__field">
-                        <label for="<?php echo esc_attr($uid . '-gateway'); ?>"><?php esc_html_e('Payment method', 'surcharge'); ?></label>
-                        <select id="<?php echo esc_attr($uid . '-gateway'); ?>" name="<?php echo esc_attr($base . '[payment_method]'); ?>">
-                            <option value=""><?php esc_html_e('Any payment method', 'surcharge'); ?></option>
-                            <?php foreach ($this->paymentGateways() as $id => $title) : ?>
-                                <option value="<?php echo esc_attr($id); ?>" <?php selected($gateway, $id); ?>><?php echo esc_html($title); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </p>
-
-                    <p class="surcharge-fee__field surcharge-fee__field--countries">
-                        <label for="<?php echo esc_attr($uid . '-countries'); ?>">
-                            <?php esc_html_e('Shipping countries', 'surcharge'); ?>
-                            <?php $this->help($uid . '-help-countries', __('Comma-separated two-letter country codes (e.g. US, CA, GB). The fee applies only when the shipping country is in this list. Leave blank for all countries.', 'surcharge')); ?>
-                        </label>
-                        <input type="text" id="<?php echo esc_attr($uid . '-countries'); ?>" name="<?php echo esc_attr($base . '[countries]'); ?>" value="<?php echo esc_attr($countries); ?>" class="regular-text" placeholder="US, CA, GB" />
-                    </p>
-                </div>
             </div>
 
             <div class="surcharge-fee__footer">
@@ -292,26 +233,6 @@ final class Settings implements HasHooks
         echo '<script type="text/html" id="surcharge-fee-template">';
         $this->renderFeeRow($option, 0, null);
         echo '</script>';
-    }
-
-    /**
-     * Available payment gateway ids => titles, for the condition dropdown.
-     *
-     * @return array<string, string>
-     */
-    private function paymentGateways(): array
-    {
-        $out = [];
-        if (function_exists('WC') && WC()->payment_gateways()) {
-            foreach (WC()->payment_gateways()->payment_gateways() as $id => $gateway) {
-                $title = is_object($gateway) && ! empty($gateway->title)
-                    ? wp_strip_all_tags((string) $gateway->title)
-                    : (string) $id;
-                $out[(string) $id] = $title;
-            }
-        }
-
-        return $out;
     }
 
     /**
@@ -339,21 +260,13 @@ final class Settings implements HasHooks
                     continue;
                 }
 
-                $countriesRaw = isset($row['countries']) ? sanitize_text_field((string) $row['countries']) : '';
-                $countries    = '' === $countriesRaw ? [] : array_map('trim', explode(',', $countriesRaw));
-
-                $normalized = $this->repository->normalizeFee([
-                    'label'          => $label,
-                    'type'           => sanitize_key((string) ($row['type'] ?? Fee::TYPE_FIXED)),
-                    'amount'         => isset($row['amount']) ? (float) wc_format_decimal((string) $row['amount']) : 0,
-                    'taxable'        => ! empty($row['taxable']),
-                    'min_cart_total' => isset($row['min_cart_total']) ? (float) wc_format_decimal((string) $row['min_cart_total']) : 0,
-                    'payment_method' => sanitize_text_field((string) ($row['payment_method'] ?? '')),
-                    'countries'      => $countries,
-                    'enabled'        => ! empty($row['enabled']),
+                $fees[] = $this->repository->normalizeFee([
+                    'label'   => $label,
+                    'type'    => sanitize_key((string) ($row['type'] ?? Fee::TYPE_FIXED)),
+                    'amount'  => isset($row['amount']) ? (float) wc_format_decimal((string) $row['amount']) : 0,
+                    'taxable' => ! empty($row['taxable']),
+                    'enabled' => ! empty($row['enabled']),
                 ]);
-
-                $fees[] = $normalized;
             }
         }
 

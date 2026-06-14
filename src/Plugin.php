@@ -49,12 +49,5 @@ final class Plugin
                 $service->registerHooks();
             }
         }
-
-        /**
-         * Fires after the plugin has fully booted. Add-ons can hook here to extend it.
-         *
-         * @param Plugin $plugin The booted plugin instance.
-         */
-        do_action('surcharge/booted', $this);
     }
 }

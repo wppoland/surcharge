@@ -9,11 +9,11 @@ Requires Plugins: woocommerce
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Add fixed or percentage checkout fees, optionally conditional on cart total, payment method or shipping country.
+Add fixed or percentage fees to the WooCommerce cart and checkout.
 
 == Description ==
 
-Surcharge lets you add one or more fees to the WooCommerce cart and checkout. Each fee is either a fixed amount or a percentage of the cart, and can be made conditional so it only applies when it should.
+Surcharge lets you add one or more fees to the WooCommerce cart and checkout. Each fee is either a fixed amount or a percentage of the cart subtotal.
 
 Fees are added through the official WooCommerce fees API, so they show up in the cart totals, on the checkout page, and on the resulting order — exactly like shipping or tax.
 
@@ -21,12 +21,8 @@ Fees are added through the official WooCommerce fees API, so they show up in the
 
 * Add unlimited fees, each a fixed amount or a percentage of the cart subtotal.
 * Mark a fee as taxable so WooCommerce applies your standard tax rules to it.
-* Conditions per fee, all optional and combinable:
-  * Minimum cart total before the fee applies.
-  * A specific payment method (e.g. only charge a fee for Cash on Delivery).
-  * One or more shipping countries.
-* A clean, accessible settings screen under WooCommerce → Surcharge.
 * Master switch to pause every fee without deleting your configuration.
+* A clean, accessible settings screen under WooCommerce → Surcharge.
 * Self-contained: no external services, no account, no tracking.
 
 == Installation ==
@@ -41,23 +37,19 @@ Fees are added through the official WooCommerce fees API, so they show up in the
 
 Yes. Surcharge extends the WooCommerce cart and checkout and does nothing without it.
 
-= Can I charge a fee only for a specific payment method? =
-
-Yes. Each fee has an optional "Payment method" condition. Pick a gateway and the fee only applies when the customer selects it at checkout.
-
 = How is a percentage fee calculated? =
 
 It is a percentage of the cart contents subtotal (before existing fees and shipping).
 
-= Can a fee be limited to certain countries? =
+= Can I add more than one fee? =
 
-Yes. Enter comma-separated two-letter country codes (e.g. US, CA, GB) in the fee's "Shipping countries" condition.
+Yes. Add as many fee rows as you need; each one is applied independently.
 
 == Screenshots ==
 
-1. The Surcharge settings screen with a conditional fee configured.
+1. The Surcharge settings screen with a fee configured.
 
 == Changelog ==
 
 = 0.1.0 =
-* Initial release: fixed and percentage checkout fees with cart-total, payment-method and country conditions.
+* Initial release: fixed and percentage checkout fees, taxable option, and a master switch.

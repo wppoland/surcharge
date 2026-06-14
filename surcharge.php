@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Surcharge - Checkout Fees for WooCommerce
  * Plugin URI:        https://plogins.com/surcharge/
- * Description:        Add fixed or percentage checkout fees, optionally conditional on cart, payment or country.
+ * Description:        Add fixed or percentage fees to the WooCommerce cart and checkout.
  * Version:           0.1.0
  * Requires at least: 6.5
  * Requires PHP:      8.1

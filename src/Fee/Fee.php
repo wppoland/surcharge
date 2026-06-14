@@ -7,9 +7,9 @@ namespace Surcharge\Fee;
 defined('ABSPATH') || exit;
 
 /**
- * Immutable value object describing a single configurable checkout fee and its
- * optional conditions. Constructed from sanitised settings by FeeRepository, so
- * every property here is already trustworthy.
+ * Immutable value object describing a single configurable checkout fee.
+ * Constructed from sanitised settings by FeeRepository, so every property here
+ * is already trustworthy.
  */
 final class Fee
 {
@@ -17,23 +17,17 @@ final class Fee
     public const TYPE_PERCENT = 'percent';
 
     /**
-     * @param string   $label          Human-readable fee label shown to customers.
-     * @param string   $type           One of TYPE_FIXED or TYPE_PERCENT.
-     * @param float    $amount         Fixed amount or percentage (0-100), per $type.
-     * @param bool     $taxable        Whether WooCommerce should tax this fee.
-     * @param float    $minCartTotal   Minimum cart subtotal required (0 = no minimum).
-     * @param string   $paymentMethod  Gateway id the fee is limited to ('' = any).
-     * @param string[] $countries      Allowed shipping countries ([] = any).
-     * @param bool     $enabled        Whether this fee is active.
+     * @param string $label   Human-readable fee label shown to customers.
+     * @param string $type    One of TYPE_FIXED or TYPE_PERCENT.
+     * @param float  $amount  Fixed amount or percentage (0-100), per $type.
+     * @param bool   $taxable Whether WooCommerce should tax this fee.
+     * @param bool   $enabled Whether this fee is active.
      */
     public function __construct(
         public readonly string $label,
         public readonly string $type,
         public readonly float $amount,
         public readonly bool $taxable,
-        public readonly float $minCartTotal,
-        public readonly string $paymentMethod,
-        public readonly array $countries,
         public readonly bool $enabled,
     ) {
     }
