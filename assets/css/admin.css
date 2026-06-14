@@ -1,0 +1,354 @@
+/**
+ * Surcharge — admin settings UI.
+ *
+ * Scoped to .surcharge-admin so nothing leaks into core wp-admin. Themeable via
+ * custom properties; respects prefers-color-scheme and prefers-reduced-motion.
+ */
+
+.surcharge-admin {
+	--sc-accent: #2563eb;
+	--sc-accent-strong: #1d4ed8;
+	--sc-accent-soft: #e8effd;
+	--sc-surface: #ffffff;
+	--sc-surface-muted: #f6f7f9;
+	--sc-border: #dcdfe5;
+	--sc-text: #1d2327;
+	--sc-text-muted: #646970;
+	--sc-success: #1a7f50;
+	--sc-danger: #b32d2e;
+	--sc-radius: 10px;
+	--sc-radius-sm: 6px;
+	--sc-gap: clamp(0.75rem, 0.4rem + 1vw, 1.25rem);
+	--sc-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1);
+
+	max-inline-size: 980px;
+	color: var(--sc-text);
+}
+
+/* ---- Intro / hero ---------------------------------------------------- */
+
+.surcharge-admin__intro {
+	display: flex;
+	gap: var(--sc-gap);
+	align-items: flex-start;
+	padding: clamp(1rem, 0.6rem + 1.4vw, 1.4rem);
+	margin-block: 1rem;
+	background: linear-gradient(135deg, var(--sc-accent-soft), var(--sc-surface));
+	border: 1px solid var(--sc-border);
+	border-radius: var(--sc-radius);
+	box-shadow: var(--sc-shadow);
+}
+
+.surcharge-admin__intro-icon {
+	flex: 0 0 auto;
+	display: grid;
+	place-items: center;
+	inline-size: 44px;
+	block-size: 44px;
+	border-radius: var(--sc-radius-sm);
+	background: var(--sc-accent);
+	color: #fff;
+	font-size: 26px;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.surcharge-admin__intro h2 {
+	margin: 0 0 0.25rem;
+	font-size: 1.05rem;
+}
+
+.surcharge-admin__intro p {
+	margin: 0;
+	color: var(--sc-text-muted);
+	max-inline-size: 70ch;
+}
+
+/* ---- Status pill ----------------------------------------------------- */
+
+.surcharge-admin__status {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	margin-inline-start: 0.5rem;
+	padding: 0.15rem 0.6rem;
+	border-radius: 999px;
+	font-size: 0.78rem;
+	font-weight: 600;
+	vertical-align: middle;
+}
+
+.surcharge-admin__status::before {
+	content: "";
+	inline-size: 8px;
+	block-size: 8px;
+	border-radius: 50%;
+	background: currentColor;
+}
+
+.surcharge-admin__status--on {
+	background: #e6f4ec;
+	color: var(--sc-success);
+}
+
+.surcharge-admin__status--off {
+	background: #f2f3f5;
+	color: var(--sc-text-muted);
+}
+
+/* ---- Cards / sections ------------------------------------------------ */
+
+.surcharge-admin__card {
+	margin-block: 1.25rem;
+	padding: clamp(1rem, 0.6rem + 1.4vw, 1.5rem);
+	background: var(--sc-surface);
+	border: 1px solid var(--sc-border);
+	border-radius: var(--sc-radius);
+	box-shadow: var(--sc-shadow);
+}
+
+.surcharge-admin__card > h2 {
+	margin-block: 0 0.25rem;
+	font-size: 1rem;
+}
+
+.surcharge-admin__card-hint {
+	margin-block: 0 1rem;
+	color: var(--sc-text-muted);
+}
+
+.surcharge-admin .form-table {
+	margin-top: 0;
+}
+
+/* ---- Fee rows -------------------------------------------------------- */
+
+.surcharge-fee {
+	margin: 0 0 1rem;
+	padding: 1rem 1.1rem 0.75rem;
+	background: var(--sc-surface-muted);
+	border: 1px solid var(--sc-border);
+	border-radius: var(--sc-radius-sm);
+}
+
+.surcharge-fee[hidden] {
+	display: none;
+}
+
+.surcharge-fee__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 0.75rem 1rem;
+	align-items: end;
+}
+
+.surcharge-fee__field {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+}
+
+.surcharge-fee__field--check,
+.surcharge-fee__field--label {
+	justify-content: flex-end;
+}
+
+.surcharge-fee__field > label {
+	font-weight: 600;
+	font-size: 0.85rem;
+}
+
+.surcharge-fee__field input[type="text"],
+.surcharge-fee__field input[type="number"],
+.surcharge-fee__field select {
+	max-inline-size: 100%;
+}
+
+.surcharge-fee__amount {
+	display: inline-block;
+}
+
+.surcharge-fee__amount-suffix {
+	margin-inline-start: 0.35rem;
+	color: var(--sc-text-muted);
+	font-size: 0.85rem;
+}
+
+.surcharge-fee__field input:focus,
+.surcharge-fee__field select:focus {
+	border-color: var(--sc-accent);
+	box-shadow: 0 0 0 1px var(--sc-accent);
+	outline: 2px solid transparent;
+}
+
+/* ---- Conditions block ------------------------------------------------ */
+
+.surcharge-fee__conditions {
+	margin-top: 0.9rem;
+	padding-top: 0.9rem;
+	border-top: 1px dashed var(--sc-border);
+}
+
+.surcharge-fee__conditions-title {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	margin-bottom: 0.5rem;
+	font-size: 0.72rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--sc-text-muted);
+}
+
+.surcharge-fee__field--countries {
+	grid-column: 1 / -1;
+}
+
+/* ---- Row footer ------------------------------------------------------ */
+
+.surcharge-fee__footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 0.75rem;
+	padding-top: 0.6rem;
+	border-top: 1px solid var(--sc-border);
+}
+
+.surcharge-fee__enabled {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-weight: 600;
+}
+
+.surcharge-fee__remove {
+	color: var(--sc-danger);
+	cursor: pointer;
+}
+
+.surcharge-fee__remove:hover,
+.surcharge-fee__remove:focus-visible {
+	color: var(--sc-danger);
+	text-decoration: underline;
+}
+
+.surcharge-add-fee {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+}
+
+/* ---- Label + help affordance ----------------------------------------- */
+
+.surcharge-admin__label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+}
+
+.surcharge-help {
+	all: unset;
+	display: inline-grid;
+	place-items: center;
+	inline-size: 18px;
+	block-size: 18px;
+	border-radius: 50%;
+	background: var(--sc-surface-muted);
+	border: 1px solid var(--sc-border);
+	color: var(--sc-text-muted);
+	font-size: 11px;
+	font-weight: 700;
+	cursor: help;
+	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.surcharge-help:hover,
+.surcharge-help:focus-visible {
+	background: var(--sc-accent);
+	border-color: var(--sc-accent);
+	color: #fff;
+}
+
+.surcharge-help:focus-visible {
+	outline: 2px solid var(--sc-accent-strong);
+	outline-offset: 2px;
+}
+
+.surcharge-tooltip {
+	max-inline-size: 280px;
+	margin: 0;
+	padding: 0.6rem 0.75rem;
+	font-size: 0.82rem;
+	line-height: 1.45;
+	color: #fff;
+	background: #1d2327;
+	border: 0;
+	border-radius: var(--sc-radius-sm);
+	box-shadow: 0 6px 24px rgba(16, 24, 40, 0.22);
+}
+
+.surcharge-tooltip::backdrop {
+	background: transparent;
+}
+
+.surcharge-help-fallback {
+	display: block;
+	margin-top: 0.35rem;
+	color: var(--sc-text-muted);
+	font-style: italic;
+	font-size: 0.8rem;
+	font-weight: 400;
+}
+
+/* When JS upgrades the help into a tooltip, hide the inline fallback. */
+.surcharge-admin.is-enhanced .surcharge-help-fallback {
+	display: none;
+}
+
+/* ---- Dark mode ------------------------------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+	.surcharge-admin {
+		--sc-accent-soft: #1b2a4a;
+		--sc-surface: #1e2127;
+		--sc-surface-muted: #262a31;
+		--sc-border: #3a3f47;
+		--sc-text: #e7e9ec;
+		--sc-text-muted: #a7acb3;
+		--sc-success: #4cc38a;
+		--sc-danger: #f08a8a;
+		--sc-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+	}
+
+	.surcharge-admin__status--on {
+		background: #143727;
+	}
+
+	.surcharge-admin__status--off {
+		background: #2a2e35;
+	}
+
+	.surcharge-tooltip {
+		background: #0f1115;
+	}
+}
+
+/* ---- Motion ---------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+	.surcharge-admin *,
+	.surcharge-admin *::before {
+		transition: none !important;
+	}
+}
+
+/* ---- Narrow screens -------------------------------------------------- */
+
+@media (max-width: 600px) {
+	.surcharge-admin__intro {
+		flex-direction: column;
+	}
+}
