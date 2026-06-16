@@ -36,7 +36,12 @@
 	function syncReadout( row, stamp ) {
 		var type = row.querySelector( '.surcharge-fee__type' );
 		var readout = row.querySelector( '.surcharge-fee__readout' );
-		if ( ! type || ! readout ) {
+		if ( ! type ) {
+			return;
+		}
+		// Drive the amount help text (fixed vs percentage) off the row.
+		row.setAttribute( 'data-type', type.value );
+		if ( ! readout ) {
 			return;
 		}
 		var glyphEl = readout.querySelector( '.surcharge-fee__readout-glyph' );

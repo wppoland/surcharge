@@ -204,6 +204,35 @@
 	color: var(--surcharge-ink);
 }
 
+/* Per-field help — names the effect, not the label. Muted but AA-legible
+   (5.22:1 on the warm paper surface). */
+.surcharge-fee__help {
+	display: block;
+	margin-top: 0.1rem;
+	font-size: 0.8rem;
+	line-height: 1.4;
+	color: var(--surcharge-text-muted);
+}
+
+.surcharge-fee__help--inline {
+	display: inline;
+	margin-top: 0;
+	margin-inline-start: 0.4rem;
+	font-weight: 400;
+}
+
+/* Amount help adapts to the chosen type once JS marks the row. With JS off
+   both lines show, which is still correct. */
+.surcharge-fee__help-for-fixed,
+.surcharge-fee__help-for-percent {
+	display: block;
+}
+
+.surcharge-admin.is-enhanced .surcharge-fee[data-type="fixed"] .surcharge-fee__help-for-percent,
+.surcharge-admin.is-enhanced .surcharge-fee[data-type="percent"] .surcharge-fee__help-for-fixed {
+	display: none;
+}
+
 .surcharge-fee__field input[type="text"],
 .surcharge-fee__field input[type="number"],
 .surcharge-fee__field select {
