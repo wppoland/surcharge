@@ -41,6 +41,19 @@ final class FeeApplicator implements HasHooks
             return;
         }
 
+        /**
+         * Whether Surcharge fees should apply to the current request.
+         *
+         * FREE passes true once the master switch is on. Add-ons (e.g.
+         * Surcharge Pro role restrictions) may return false to skip all fees
+         * for the current customer/context.
+         *
+         * @param bool $applies Whether the FREE conditions passed.
+         */
+        if (! apply_filters('surcharge/fee_applies', true)) {
+            return;
+        }
+
         $cartTotal = $this->cartBase($cart);
 
         $usedLabels = [];
