@@ -28,6 +28,47 @@
 				removeRow( row );
 			} );
 		}
+		wireReadout( row );
+	}
+
+	/* ---- Till readout: mirror the Type select on the receipt stamp -- */
+
+	function syncReadout( row, stamp ) {
+		var type = row.querySelector( '.surcharge-fee__type' );
+		var readout = row.querySelector( '.surcharge-fee__readout' );
+		if ( ! type || ! readout ) {
+			return;
+		}
+		var glyphEl = readout.querySelector( '.surcharge-fee__readout-glyph' );
+		if ( ! glyphEl ) {
+			return;
+		}
+		var glyph =
+			type.value === 'percent'
+				? readout.dataset.percentGlyph
+				: readout.dataset.fixedGlyph;
+		if ( glyphEl.textContent === glyph ) {
+			return;
+		}
+		glyphEl.textContent = glyph;
+		if ( stamp ) {
+			readout.classList.remove( 'is-stamping' );
+			// Reflow so the animation can replay on each change.
+			void readout.offsetWidth;
+			readout.classList.add( 'is-stamping' );
+		}
+	}
+
+	function wireReadout( row ) {
+		var type = row.querySelector( '.surcharge-fee__type' );
+		if ( ! type || type.dataset.scReadout ) {
+			return;
+		}
+		type.dataset.scReadout = '1';
+		type.addEventListener( 'change', function () {
+			syncReadout( row, true );
+		} );
+		syncReadout( row, false );
 	}
 
 	/* ---- Re-indexing ------------------------------------------------ */
