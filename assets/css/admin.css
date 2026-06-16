@@ -1,42 +1,59 @@
 /**
  * Surcharge — admin settings UI.
  *
+ * The plugin's job is a single line on a receipt: the extra charge at the
+ * bottom of the till slip. So the settings screen is dressed as a register
+ * receipt — warm paper surface, an ink-teal "till" accent (not the default
+ * blue), a monospace amount readout, and a perforated edge on each fee row.
+ * The one crafted moment is the fee row's type readout, which stamps "+ FIXED"
+ * or "+ %" the way a register prints a line.
+ *
  * Scoped to .surcharge-admin so nothing leaks into core wp-admin. Themeable via
- * custom properties; respects prefers-color-scheme and prefers-reduced-motion.
+ * --surcharge-* custom properties; respects prefers-color-scheme and
+ * prefers-reduced-motion.
  */
 
 .surcharge-admin {
-	--sc-accent: #2563eb;
-	--sc-accent-strong: #1d4ed8;
-	--sc-accent-soft: #e8effd;
-	--sc-surface: #ffffff;
-	--sc-surface-muted: #f6f7f9;
-	--sc-border: #dcdfe5;
-	--sc-text: #1d2327;
-	--sc-text-muted: #646970;
-	--sc-success: #1a7f50;
-	--sc-danger: #b32d2e;
-	--sc-radius: 10px;
-	--sc-radius-sm: 6px;
-	--sc-gap: clamp(0.75rem, 0.4rem + 1vw, 1.25rem);
-	--sc-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1);
+	/* Register ink-teal accent — deliberately NOT default admin blue. */
+	--surcharge-accent: #0f766e;
+	--surcharge-accent-strong: #0b5d56;
+	--surcharge-accent-soft: #e3f2f0;
+	/* Label colour sitting ON the accent fill. White passes on the deep
+	   light-mode teal (5.47:1); dark mode flips it to deep ink because the
+	   accent brightens to mint there. */
+	--surcharge-on-accent: #ffffff;
+	--surcharge-ink: #14302c;
+	--surcharge-paper: #fbf8f1;
+	--surcharge-paper-edge: #f3ecdd;
+	--surcharge-surface: #ffffff;
+	--surcharge-surface-muted: #f6f7f9;
+	--surcharge-border: #dcdfe5;
+	--surcharge-text: #1d2327;
+	--surcharge-text-muted: #646970;
+	--surcharge-success: #0f766e;
+	--surcharge-danger: #b32d2e;
+	--surcharge-radius: 10px;
+	--surcharge-radius-sm: 6px;
+	--surcharge-gap: clamp(0.75rem, 0.4rem + 1vw, 1.25rem);
+	--surcharge-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1);
+	--surcharge-mono: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
 
 	max-inline-size: 980px;
-	color: var(--sc-text);
+	color: var(--surcharge-text);
 }
 
 /* ---- Intro / hero ---------------------------------------------------- */
 
 .surcharge-admin__intro {
 	display: flex;
-	gap: var(--sc-gap);
+	gap: var(--surcharge-gap);
 	align-items: flex-start;
 	padding: clamp(1rem, 0.6rem + 1.4vw, 1.4rem);
 	margin-block: 1rem;
-	background: linear-gradient(135deg, var(--sc-accent-soft), var(--sc-surface));
-	border: 1px solid var(--sc-border);
-	border-radius: var(--sc-radius);
-	box-shadow: var(--sc-shadow);
+	background: linear-gradient(135deg, var(--surcharge-accent-soft), var(--surcharge-surface));
+	border: 1px solid var(--surcharge-border);
+	border-radius: var(--surcharge-radius);
+	box-shadow: var(--surcharge-shadow);
 }
 
 .surcharge-admin__intro-icon {
@@ -45,9 +62,9 @@
 	place-items: center;
 	inline-size: 44px;
 	block-size: 44px;
-	border-radius: var(--sc-radius-sm);
-	background: var(--sc-accent);
-	color: #fff;
+	border-radius: var(--surcharge-radius-sm);
+	background: var(--surcharge-accent);
+	color: var(--surcharge-on-accent);
 	font-size: 26px;
 	font-weight: 700;
 	line-height: 1;
@@ -60,7 +77,7 @@
 
 .surcharge-admin__intro p {
 	margin: 0;
-	color: var(--sc-text-muted);
+	color: var(--surcharge-text-muted);
 	max-inline-size: 70ch;
 }
 
@@ -87,13 +104,13 @@
 }
 
 .surcharge-admin__status--on {
-	background: #e6f4ec;
-	color: var(--sc-success);
+	background: var(--surcharge-accent-soft);
+	color: var(--surcharge-success);
 }
 
 .surcharge-admin__status--off {
 	background: #f2f3f5;
-	color: var(--sc-text-muted);
+	color: var(--surcharge-text-muted);
 }
 
 /* ---- Cards / sections ------------------------------------------------ */
@@ -101,10 +118,10 @@
 .surcharge-admin__card {
 	margin-block: 1.25rem;
 	padding: clamp(1rem, 0.6rem + 1.4vw, 1.5rem);
-	background: var(--sc-surface);
-	border: 1px solid var(--sc-border);
-	border-radius: var(--sc-radius);
-	box-shadow: var(--sc-shadow);
+	background: var(--surcharge-surface);
+	border: 1px solid var(--surcharge-border);
+	border-radius: var(--surcharge-radius);
+	box-shadow: var(--surcharge-shadow);
 }
 
 .surcharge-admin__card > h2 {
@@ -114,21 +131,48 @@
 
 .surcharge-admin__card-hint {
 	margin-block: 0 1rem;
-	color: var(--sc-text-muted);
+	color: var(--surcharge-text-muted);
 }
 
 .surcharge-admin .form-table {
 	margin-top: 0;
 }
 
-/* ---- Fee rows -------------------------------------------------------- */
+/* ---- Fee rows — the receipt slip ------------------------------------- */
+/*
+ * THE MOMENT THAT MATTERS. Each fee row is a till slip: warm paper, a torn
+ * perforated top edge, and a monospace amount that reads like a printed line.
+ */
 
 .surcharge-fee {
-	margin: 0 0 1rem;
-	padding: 1rem 1.1rem 0.75rem;
-	background: var(--sc-surface-muted);
-	border: 1px solid var(--sc-border);
-	border-radius: var(--sc-radius-sm);
+	position: relative;
+	margin: 0 0 1.25rem;
+	padding: 1.1rem 1.1rem 0.75rem;
+	background: var(--surcharge-paper);
+	border: 1px solid var(--surcharge-border);
+	border-radius: var(--surcharge-radius-sm);
+	background-image:
+		/* faint receipt rule lines */
+		repeating-linear-gradient(
+			to bottom,
+			transparent 0,
+			transparent 27px,
+			rgba(20, 48, 44, 0.035) 27px,
+			rgba(20, 48, 44, 0.035) 28px
+		);
+}
+
+/* Perforated tear edge along the top — reads as a receipt the moment you see it. */
+.surcharge-fee::before {
+	content: "";
+	position: absolute;
+	inset-block-start: -1px;
+	inset-inline: 0;
+	block-size: 9px;
+	/* Scalloped cut-outs: punch the page colour through the paper edge. */
+	background:
+		radial-gradient(circle at 7px 9px, var(--surcharge-surface) 0 5px, transparent 5.5px) repeat-x;
+	background-size: 14px 9px;
 }
 
 .surcharge-fee[hidden] {
@@ -157,6 +201,7 @@
 .surcharge-fee__field > label {
 	font-weight: 600;
 	font-size: 0.85rem;
+	color: var(--surcharge-ink);
 }
 
 .surcharge-fee__field input[type="text"],
@@ -165,15 +210,81 @@
 	max-inline-size: 100%;
 }
 
+/* The amount reads like a printed register line. */
 .surcharge-fee__amount {
 	display: inline-block;
+	font-family: var(--surcharge-mono);
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.02em;
 }
 
 .surcharge-fee__field input:focus,
 .surcharge-fee__field select:focus {
-	border-color: var(--sc-accent);
-	box-shadow: 0 0 0 1px var(--sc-accent);
+	border-color: var(--surcharge-accent);
+	box-shadow: 0 0 0 1px var(--surcharge-accent);
 	outline: 2px solid transparent;
+}
+
+/* ---- The till readout — the single crafted moment -------------------- */
+/*
+ * A monospace stamp that mirrors the chosen fee type, sitting where a register
+ * prints the kind of line. JS swaps its glyph ($ / %) on type change; the
+ * glyph settles with a brief ink press. Presentation only — the <select> is
+ * still the source of truth and works with JS off (this is then just decor).
+ */
+
+.surcharge-fee__readout {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.4rem;
+	align-self: flex-end;
+	padding: 0.3rem 0.7rem;
+	border: 1px dashed var(--surcharge-accent);
+	border-radius: var(--surcharge-radius-sm);
+	background: var(--surcharge-accent-soft);
+	color: var(--surcharge-accent-strong);
+	font-family: var(--surcharge-mono);
+	font-size: 0.82rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	white-space: nowrap;
+	user-select: none;
+}
+
+.surcharge-fee__readout-glyph {
+	display: inline-block;
+	font-size: 1.05rem;
+	line-height: 1;
+	transform: translateY(0.05em);
+}
+
+/* The ink-press micro-interaction when the type flips. */
+.surcharge-fee__readout.is-stamping .surcharge-fee__readout-glyph {
+	animation: surcharge-stamp 220ms ease-out;
+}
+
+@keyframes surcharge-stamp {
+	0% {
+		transform: translateY(0.05em) scale(1.35);
+		opacity: 0.35;
+	}
+	60% {
+		transform: translateY(0.05em) scale(0.92);
+		opacity: 1;
+	}
+	100% {
+		transform: translateY(0.05em) scale(1);
+	}
+}
+
+/* No-JS / no-readout fallback: hide the stamp field cleanly. */
+.surcharge-fee__field--readout {
+	justify-content: flex-end;
+}
+
+.surcharge-admin:not(.is-enhanced) .surcharge-fee__field--readout {
+	display: none;
 }
 
 /* ---- Row footer ------------------------------------------------------ */
@@ -184,7 +295,7 @@
 	justify-content: space-between;
 	margin-top: 0.75rem;
 	padding-top: 0.6rem;
-	border-top: 1px solid var(--sc-border);
+	border-top: 1px dashed var(--surcharge-border);
 }
 
 .surcharge-fee__enabled {
@@ -192,16 +303,17 @@
 	align-items: center;
 	gap: 0.4rem;
 	font-weight: 600;
+	color: var(--surcharge-ink);
 }
 
 .surcharge-fee__remove {
-	color: var(--sc-danger);
+	color: var(--surcharge-danger);
 	cursor: pointer;
 }
 
 .surcharge-fee__remove:hover,
 .surcharge-fee__remove:focus-visible {
-	color: var(--sc-danger);
+	color: var(--surcharge-danger);
 	text-decoration: underline;
 }
 
@@ -215,19 +327,34 @@
 
 @media (prefers-color-scheme: dark) {
 	.surcharge-admin {
-		--sc-accent-soft: #1b2a4a;
-		--sc-surface: #1e2127;
-		--sc-surface-muted: #262a31;
-		--sc-border: #3a3f47;
-		--sc-text: #e7e9ec;
-		--sc-text-muted: #a7acb3;
-		--sc-success: #4cc38a;
-		--sc-danger: #f08a8a;
-		--sc-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+		--surcharge-accent: #2dd4bf;
+		--surcharge-accent-strong: #5eead4;
+		--surcharge-accent-soft: #133a36;
+		/* On bright mint, white drops to 1.86:1 — flip the label to deep
+		   teal-ink (7.70:1) to keep the teal identity while passing AA. */
+		--surcharge-on-accent: #06302b;
+		--surcharge-ink: #cfe9e4;
+		--surcharge-paper: #20262b;
+		--surcharge-paper-edge: #262c31;
+		--surcharge-surface: #1e2127;
+		--surcharge-surface-muted: #262a31;
+		--surcharge-border: #3a3f47;
+		--surcharge-text: #e7e9ec;
+		--surcharge-text-muted: #a7acb3;
+		--surcharge-success: #4cc38a;
+		--surcharge-danger: #f08a8a;
+		--surcharge-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 	}
 
-	.surcharge-admin__status--on {
-		background: #143727;
+	.surcharge-fee {
+		background-image:
+			repeating-linear-gradient(
+				to bottom,
+				transparent 0,
+				transparent 27px,
+				rgba(207, 233, 228, 0.05) 27px,
+				rgba(207, 233, 228, 0.05) 28px
+			);
 	}
 
 	.surcharge-admin__status--off {
@@ -241,6 +368,7 @@
 	.surcharge-admin *,
 	.surcharge-admin *::before {
 		transition: none !important;
+		animation: none !important;
 	}
 }
 

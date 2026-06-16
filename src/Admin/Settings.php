@@ -205,6 +205,19 @@ final class Settings implements HasHooks
                     <input type="number" step="0.01" min="0" id="<?php echo esc_attr($uid . '-amount'); ?>" name="<?php echo esc_attr($base . '[amount]'); ?>" value="<?php echo esc_attr($amount); ?>" class="small-text surcharge-fee__amount" />
                 </p>
 
+                <?php
+                // Presentation-only till readout. Mirrors the Type select for a
+                // quick "what prints on the receipt" glance. The <select> stays
+                // the source of truth; with JS off this field is hidden via CSS.
+                $isPercent = (Fee::TYPE_PERCENT === $type);
+                ?>
+                <p class="surcharge-fee__field surcharge-fee__field--readout" aria-hidden="true">
+                    <span class="surcharge-fee__readout" data-fixed-glyph="&#43;&#36;" data-percent-glyph="&#43;&#37;">
+                        <span class="surcharge-fee__readout-glyph"><?php echo $isPercent ? '&#43;&#37;' : '&#43;&#36;'; ?></span>
+                        <span class="surcharge-fee__readout-text"><?php esc_html_e('Receipt line', 'surcharge'); ?></span>
+                    </span>
+                </p>
+
                 <p class="surcharge-fee__field surcharge-fee__field--check">
                     <label for="<?php echo esc_attr($uid . '-taxable'); ?>">
                         <input type="checkbox" id="<?php echo esc_attr($uid . '-taxable'); ?>" name="<?php echo esc_attr($base . '[taxable]'); ?>" value="1" <?php checked($taxable, true); ?> />
