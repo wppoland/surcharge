@@ -18,6 +18,10 @@
 	--surcharge-accent: #0f766e;
 	--surcharge-accent-strong: #0b5d56;
 	--surcharge-accent-soft: #e3f2f0;
+	/* Label colour sitting ON the accent fill. White passes on the deep
+	   light-mode teal (5.47:1); dark mode flips it to deep ink because the
+	   accent brightens to mint there. */
+	--surcharge-on-accent: #ffffff;
 	--surcharge-ink: #14302c;
 	--surcharge-paper: #fbf8f1;
 	--surcharge-paper-edge: #f3ecdd;
@@ -60,7 +64,7 @@
 	block-size: 44px;
 	border-radius: var(--surcharge-radius-sm);
 	background: var(--surcharge-accent);
-	color: #fff;
+	color: var(--surcharge-on-accent);
 	font-size: 26px;
 	font-weight: 700;
 	line-height: 1;
@@ -326,6 +330,9 @@
 		--surcharge-accent: #2dd4bf;
 		--surcharge-accent-strong: #5eead4;
 		--surcharge-accent-soft: #133a36;
+		/* On bright mint, white drops to 1.86:1 — flip the label to deep
+		   teal-ink (7.70:1) to keep the teal identity while passing AA. */
+		--surcharge-on-accent: #06302b;
 		--surcharge-ink: #cfe9e4;
 		--surcharge-paper: #20262b;
 		--surcharge-paper-edge: #262c31;
