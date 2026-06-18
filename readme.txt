@@ -19,6 +19,15 @@ Fees are added through the WooCommerce fees API, so they appear in the cart tota
 
 The code lives at https://github.com/wppoland/surcharge if you want to read it, report a bug, or suggest a fee type.
 
+= Documentation and links =
+
+* **Documentation** - https://plogins.com/surcharge/docs/
+* **Plugin page** - https://plogins.com/surcharge/
+* **Source code** - https://github.com/wppoland/surcharge
+* **Bug reports and feature requests** - https://github.com/wppoland/surcharge/issues
+* **Discussions and questions** - https://github.com/wppoland/surcharge/discussions
+
+
 = What it does =
 
 * Add as many fees as you need, each a fixed amount or a percentage of the cart.
