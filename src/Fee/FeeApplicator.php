@@ -57,12 +57,28 @@ final class FeeApplicator implements HasHooks
         $cartTotal = $this->cartBase($cart);
 
         $usedLabels = [];
-        foreach ($this->repository->active() as $index => $fee) {
+        foreach ($this->repository->all() as $index => $fee) {
+            if (! $fee->enabled) {
+                continue;
+            }
+
             if ('' === trim($fee->label)) {
                 continue;
             }
 
             $amount = $fee->resolveAmount($cartTotal);
+
+            /**
+             * Filter the resolved fee amount before it is added to the cart.
+             *
+             * @param float    $amount    Resolved fee amount from the FREE fee row.
+             * @param Fee      $fee       Fee definition.
+             * @param int      $index     Fee row index in surcharge_settings[fees].
+             * @param float    $cartTotal Percentage base (subtotal + line tax).
+             * @param \WC_Cart $cart      Cart being calculated.
+             */
+            $amount = (float) apply_filters('surcharge/fee_amount', $amount, $fee, $index, $cartTotal, $cart);
+
             if ($amount <= 0) {
                 continue;
             }

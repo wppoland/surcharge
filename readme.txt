@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, fees, surcharge, payment fee
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 Requires Plugins: woocommerce
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -76,6 +76,9 @@ Surcharge does not connect to any external service. It calls no remote APIs, loa
 All data stays in your own database: your fee rows and the master switch are kept in the `surcharge_settings` option, and a schema marker in `surcharge_db_version`. Both options are removed when you delete the plugin. The plugin creates no custom tables and sends no email; fees are applied at runtime through WooCommerce's own cart fees API.
 
 == Changelog ==
+
+= 0.1.1 =
+* `surcharge/fee_amount` filter so add-ons can override per-fee amounts (e.g. tiered rules in Surcharge Pro).
 
 = 0.1.0 =
 * Initial release: fixed and percentage checkout fees, taxable option, and a master switch.
