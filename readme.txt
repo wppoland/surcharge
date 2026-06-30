@@ -1,10 +1,10 @@
-=== Surcharge - Checkout Fees for WooCommerce ===
+=== Plogins Surcharge for WooCommerce ===
 Contributors: motylanogha
 Tags: woocommerce, checkout, fees, surcharge, payment fee
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
-Stable tag: 0.1.1
+Stable tag: 0.1.2
 Requires Plugins: woocommerce
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -17,15 +17,14 @@ Surcharge lets you add one or more fees to the WooCommerce cart and checkout. Ea
 
 Fees are added through the WooCommerce fees API, so they appear in the cart totals, on the checkout page, and on the saved order, the same way shipping or tax does. The cart and checkout blocks and HPOS are both supported.
 
-The code lives at https://github.com/wppoland/surcharge if you want to read it, report a bug, or suggest a fee type.
+The code lives at https://github.com/wppoland/plogins-surcharge if you want to read it, report a bug, or suggest a fee type.
 
 = Documentation and links =
 
-* **Documentation** - https://plogins.com/surcharge/docs/
-* **Plugin page** - https://plogins.com/surcharge/
-* **Source code** - https://github.com/wppoland/surcharge
-* **Bug reports and feature requests** - https://github.com/wppoland/surcharge/issues
-* **Discussions and questions** - https://github.com/wppoland/surcharge/discussions
+* **Documentation** - https://plogins.com/plogins-surcharge/docs/
+* **Plugin page** - https://plogins.com/plogins-surcharge/
+* **Source code** - https://github.com/wppoland/plogins-surcharge
+* **Bug reports and feature requests** - https://github.com/wppoland/plogins-surcharge/issues
 
 
 = What it does =
@@ -39,7 +38,7 @@ The code lives at https://github.com/wppoland/surcharge if you want to read it, 
 
 == Installation ==
 
-1. Upload the plugin to `/wp-content/plugins/surcharge`, or install via Plugins → Add New.
+1. Upload the plugin to `/wp-content/plugins/plogins-surcharge`, or install via Plugins → Add New.
 2. Activate it. WooCommerce must be active.
 3. Go to WooCommerce → Surcharge and add your first fee.
 
@@ -76,6 +75,9 @@ Surcharge does not connect to any external service. It calls no remote APIs, loa
 All data stays in your own database: your fee rows and the master switch are kept in the `surcharge_settings` option, and a schema marker in `surcharge_db_version`. Both options are removed when you delete the plugin. The plugin creates no custom tables and sends no email; fees are applied at runtime through WooCommerce's own cart fees API.
 
 == Changelog ==
+
+= 0.1.2 =
+* Renamed to Plogins Surcharge for WooCommerce for a more distinctive plugin name.
 
 = 0.1.1 =
 * `surcharge/fee_amount` filter so add-ons can override per-fee amounts (e.g. tiered rules in Surcharge Pro).

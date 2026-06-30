@@ -59,8 +59,8 @@ final class Settings implements HasHooks
     {
         add_submenu_page(
             'woocommerce',
-            __('Surcharge', 'surcharge'),
-            __('Surcharge', 'surcharge'),
+            __('Surcharge', 'plogins-surcharge'),
+            __('Surcharge', 'plogins-surcharge'),
             'manage_woocommerce',
             self::PAGE,
             [$this, 'renderPage'],
@@ -98,17 +98,17 @@ final class Settings implements HasHooks
             <h1>
                 <?php echo esc_html(get_admin_page_title()); ?>
                 <?php if ($enabled) : ?>
-                    <span class="surcharge-admin__status surcharge-admin__status--on"><?php esc_html_e('Active', 'surcharge'); ?></span>
+                    <span class="surcharge-admin__status surcharge-admin__status--on"><?php esc_html_e('Active', 'plogins-surcharge'); ?></span>
                 <?php else : ?>
-                    <span class="surcharge-admin__status surcharge-admin__status--off"><?php esc_html_e('Disabled', 'surcharge'); ?></span>
+                    <span class="surcharge-admin__status surcharge-admin__status--off"><?php esc_html_e('Disabled', 'plogins-surcharge'); ?></span>
                 <?php endif; ?>
             </h1>
 
             <div class="surcharge-admin__intro">
                 <span class="surcharge-admin__intro-icon" aria-hidden="true">&#43;</span>
                 <div>
-                    <h2><?php esc_html_e('Add checkout fees in two steps', 'surcharge'); ?></h2>
-                    <p><?php esc_html_e('1. Add a fee row below. 2. Choose a fixed amount or a percentage of the cart. Fees appear in the cart, at checkout and on the order.', 'surcharge'); ?></p>
+                    <h2><?php esc_html_e('Add checkout fees in two steps', 'plogins-surcharge'); ?></h2>
+                    <p><?php esc_html_e('1. Add a fee row below. 2. Choose a fixed amount or a percentage of the cart. Fees appear in the cart, at checkout and on the order.', 'plogins-surcharge'); ?></p>
                 </div>
             </div>
 
@@ -116,19 +116,19 @@ final class Settings implements HasHooks
                 <?php settings_fields(self::PAGE); ?>
 
                 <div class="surcharge-admin__card">
-                    <h2><?php esc_html_e('General', 'surcharge'); ?></h2>
+                    <h2><?php esc_html_e('General', 'plogins-surcharge'); ?></h2>
                     <table class="form-table" role="presentation">
                         <tbody>
                             <tr>
                                 <th scope="row">
-                                    <?php esc_html_e('Enable fees', 'surcharge'); ?>
+                                    <?php esc_html_e('Enable fees', 'plogins-surcharge'); ?>
                                 </th>
                                 <td>
                                     <label for="surcharge_enabled">
                                         <input type="checkbox" id="surcharge_enabled" name="<?php echo esc_attr($option); ?>[enabled]" value="1" <?php checked($enabled, true); ?> />
-                                        <?php esc_html_e('Apply the fees below at cart and checkout.', 'surcharge'); ?>
+                                        <?php esc_html_e('Apply the fees below at cart and checkout.', 'plogins-surcharge'); ?>
                                     </label>
-                                    <p class="description"><?php esc_html_e('Master switch. When off, no fees are added to any cart, regardless of the rows below.', 'surcharge'); ?></p>
+                                    <p class="description"><?php esc_html_e('Master switch. When off, no fees are added to any cart, regardless of the rows below.', 'plogins-surcharge'); ?></p>
                                 </td>
                             </tr>
                         </tbody>
@@ -137,12 +137,12 @@ final class Settings implements HasHooks
 
                 <div class="surcharge-admin__card">
                     <div class="surcharge-admin__card-head">
-                        <h2><?php esc_html_e('Fees', 'surcharge'); ?></h2>
-                        <p class="surcharge-admin__card-hint"><?php esc_html_e('Each row is one fee. A fee with no label is skipped.', 'surcharge'); ?></p>
+                        <h2><?php esc_html_e('Fees', 'plogins-surcharge'); ?></h2>
+                        <p class="surcharge-admin__card-hint"><?php esc_html_e('Each row is one fee. A fee with no label is skipped.', 'plogins-surcharge'); ?></p>
                     </div>
 
                     <div class="surcharge-fees" id="surcharge-fees"
-                        data-add-label="<?php esc_attr_e('Add fee', 'surcharge'); ?>">
+                        data-add-label="<?php esc_attr_e('Add fee', 'plogins-surcharge'); ?>">
                         <?php
                         if (empty($fees)) {
                             $this->renderFeeRow($option, 0, null);
@@ -156,7 +156,7 @@ final class Settings implements HasHooks
 
                     <p>
                         <button type="button" class="button surcharge-add-fee" id="surcharge-add-fee">
-                            <span aria-hidden="true">+</span> <?php esc_html_e('Add fee', 'surcharge'); ?>
+                            <span aria-hidden="true">+</span> <?php esc_html_e('Add fee', 'plogins-surcharge'); ?>
                         </button>
                     </p>
 
@@ -184,30 +184,30 @@ final class Settings implements HasHooks
         $rowEnabled = $fee?->enabled ?? true;
         ?>
         <fieldset class="surcharge-fee" data-index="<?php echo esc_attr((string) $index); ?>">
-            <legend class="screen-reader-text"><?php esc_html_e('Fee', 'surcharge'); ?></legend>
+            <legend class="screen-reader-text"><?php esc_html_e('Fee', 'plogins-surcharge'); ?></legend>
 
             <div class="surcharge-fee__grid">
                 <p class="surcharge-fee__field surcharge-fee__field--label">
-                    <label for="<?php echo esc_attr($uid . '-label'); ?>"><?php esc_html_e('Label', 'surcharge'); ?></label>
-                    <input type="text" id="<?php echo esc_attr($uid . '-label'); ?>" name="<?php echo esc_attr($base . '[label]'); ?>" value="<?php echo esc_attr($label); ?>" class="regular-text" placeholder="<?php esc_attr_e('e.g. Handling fee', 'surcharge'); ?>" aria-describedby="<?php echo esc_attr($uid . '-label-help'); ?>" />
-                    <span id="<?php echo esc_attr($uid . '-label-help'); ?>" class="surcharge-fee__help"><?php esc_html_e('The wording customers see on the cart, checkout and order. Leave blank to skip this row.', 'surcharge'); ?></span>
+                    <label for="<?php echo esc_attr($uid . '-label'); ?>"><?php esc_html_e('Label', 'plogins-surcharge'); ?></label>
+                    <input type="text" id="<?php echo esc_attr($uid . '-label'); ?>" name="<?php echo esc_attr($base . '[label]'); ?>" value="<?php echo esc_attr($label); ?>" class="regular-text" placeholder="<?php esc_attr_e('e.g. Handling fee', 'plogins-surcharge'); ?>" aria-describedby="<?php echo esc_attr($uid . '-label-help'); ?>" />
+                    <span id="<?php echo esc_attr($uid . '-label-help'); ?>" class="surcharge-fee__help"><?php esc_html_e('The wording customers see on the cart, checkout and order. Leave blank to skip this row.', 'plogins-surcharge'); ?></span>
                 </p>
 
                 <p class="surcharge-fee__field">
-                    <label for="<?php echo esc_attr($uid . '-type'); ?>"><?php esc_html_e('Type', 'surcharge'); ?></label>
+                    <label for="<?php echo esc_attr($uid . '-type'); ?>"><?php esc_html_e('Type', 'plogins-surcharge'); ?></label>
                     <select id="<?php echo esc_attr($uid . '-type'); ?>" name="<?php echo esc_attr($base . '[type]'); ?>" class="surcharge-fee__type" aria-describedby="<?php echo esc_attr($uid . '-type-help'); ?>">
-                        <option value="fixed" <?php selected($type, Fee::TYPE_FIXED); ?>><?php esc_html_e('Fixed amount', 'surcharge'); ?></option>
-                        <option value="percent" <?php selected($type, Fee::TYPE_PERCENT); ?>><?php esc_html_e('Percentage of cart', 'surcharge'); ?></option>
+                        <option value="fixed" <?php selected($type, Fee::TYPE_FIXED); ?>><?php esc_html_e('Fixed amount', 'plogins-surcharge'); ?></option>
+                        <option value="percent" <?php selected($type, Fee::TYPE_PERCENT); ?>><?php esc_html_e('Percentage of cart', 'plogins-surcharge'); ?></option>
                     </select>
-                    <span id="<?php echo esc_attr($uid . '-type-help'); ?>" class="surcharge-fee__help"><?php esc_html_e('Fixed adds the same amount every order. Percentage scales with the cart subtotal.', 'surcharge'); ?></span>
+                    <span id="<?php echo esc_attr($uid . '-type-help'); ?>" class="surcharge-fee__help"><?php esc_html_e('Fixed adds the same amount every order. Percentage scales with the cart subtotal.', 'plogins-surcharge'); ?></span>
                 </p>
 
                 <p class="surcharge-fee__field">
-                    <label for="<?php echo esc_attr($uid . '-amount'); ?>"><?php esc_html_e('Amount', 'surcharge'); ?></label>
+                    <label for="<?php echo esc_attr($uid . '-amount'); ?>"><?php esc_html_e('Amount', 'plogins-surcharge'); ?></label>
                     <input type="number" step="0.01" min="0" id="<?php echo esc_attr($uid . '-amount'); ?>" name="<?php echo esc_attr($base . '[amount]'); ?>" value="<?php echo esc_attr($amount); ?>" class="small-text surcharge-fee__amount" aria-describedby="<?php echo esc_attr($uid . '-amount-help'); ?>" />
                     <span id="<?php echo esc_attr($uid . '-amount-help'); ?>" class="surcharge-fee__help">
-                        <span class="surcharge-fee__help-for-fixed"><?php esc_html_e('Charged in your store currency, e.g. 3.50.', 'surcharge'); ?></span>
-                        <span class="surcharge-fee__help-for-percent"><?php esc_html_e('A percentage from 0 to 100, e.g. 2.5 adds 2.5% of the subtotal.', 'surcharge'); ?></span>
+                        <span class="surcharge-fee__help-for-fixed"><?php esc_html_e('Charged in your store currency, e.g. 3.50.', 'plogins-surcharge'); ?></span>
+                        <span class="surcharge-fee__help-for-percent"><?php esc_html_e('A percentage from 0 to 100, e.g. 2.5 adds 2.5% of the subtotal.', 'plogins-surcharge'); ?></span>
                     </span>
                 </p>
 
@@ -220,26 +220,26 @@ final class Settings implements HasHooks
                 <p class="surcharge-fee__field surcharge-fee__field--readout" aria-hidden="true">
                     <span class="surcharge-fee__readout" data-fixed-glyph="&#43;&#36;" data-percent-glyph="&#43;&#37;">
                         <span class="surcharge-fee__readout-glyph"><?php echo $isPercent ? '&#43;&#37;' : '&#43;&#36;'; ?></span>
-                        <span class="surcharge-fee__readout-text"><?php esc_html_e('Receipt line', 'surcharge'); ?></span>
+                        <span class="surcharge-fee__readout-text"><?php esc_html_e('Receipt line', 'plogins-surcharge'); ?></span>
                     </span>
                 </p>
 
                 <p class="surcharge-fee__field surcharge-fee__field--check">
                     <label for="<?php echo esc_attr($uid . '-taxable'); ?>">
                         <input type="checkbox" id="<?php echo esc_attr($uid . '-taxable'); ?>" name="<?php echo esc_attr($base . '[taxable]'); ?>" value="1" <?php checked($taxable, true); ?> aria-describedby="<?php echo esc_attr($uid . '-taxable-help'); ?>" />
-                        <?php esc_html_e('Taxable', 'surcharge'); ?>
+                        <?php esc_html_e('Taxable', 'plogins-surcharge'); ?>
                     </label>
-                    <span id="<?php echo esc_attr($uid . '-taxable-help'); ?>" class="surcharge-fee__help"><?php esc_html_e('On: tax is calculated on this fee using your standard rate. Off: the fee is added tax-free.', 'surcharge'); ?></span>
+                    <span id="<?php echo esc_attr($uid . '-taxable-help'); ?>" class="surcharge-fee__help"><?php esc_html_e('On: tax is calculated on this fee using your standard rate. Off: the fee is added tax-free.', 'plogins-surcharge'); ?></span>
                 </p>
             </div>
 
             <div class="surcharge-fee__footer">
                 <label class="surcharge-fee__enabled" for="<?php echo esc_attr($uid . '-enabled'); ?>">
                     <input type="checkbox" id="<?php echo esc_attr($uid . '-enabled'); ?>" name="<?php echo esc_attr($base . '[enabled]'); ?>" value="1" <?php checked($rowEnabled, true); ?> aria-describedby="<?php echo esc_attr($uid . '-enabled-help'); ?>" />
-                    <?php esc_html_e('Enabled', 'surcharge'); ?>
-                    <span id="<?php echo esc_attr($uid . '-enabled-help'); ?>" class="surcharge-fee__help surcharge-fee__help--inline"><?php esc_html_e('Off keeps the row saved but stops charging it.', 'surcharge'); ?></span>
+                    <?php esc_html_e('Enabled', 'plogins-surcharge'); ?>
+                    <span id="<?php echo esc_attr($uid . '-enabled-help'); ?>" class="surcharge-fee__help surcharge-fee__help--inline"><?php esc_html_e('Off keeps the row saved but stops charging it.', 'plogins-surcharge'); ?></span>
                 </label>
-                <button type="button" class="button-link surcharge-fee__remove"><?php esc_html_e('Remove fee', 'surcharge'); ?></button>
+                <button type="button" class="button-link surcharge-fee__remove"><?php esc_html_e('Remove fee', 'plogins-surcharge'); ?></button>
             </div>
         </fieldset>
         <?php
