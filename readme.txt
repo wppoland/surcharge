@@ -1,4 +1,4 @@
-=== Plogins Surcharge for WooCommerce ===
+=== Plogins Surcharge - Checkout Fees for WooCommerce ===
 Contributors: motylanogha
 Tags: woocommerce, checkout, fees, surcharge, payment fee
 Requires at least: 6.5
