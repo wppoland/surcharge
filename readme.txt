@@ -71,8 +71,9 @@ Yes. This plugin is compatible with WordPress Multisite. Network activate it or 
 
 == Screenshots ==
 
-1. The Surcharge settings screen with a fee configured.
-
+1. On the storefront.
+2. Settings in the WordPress admin.
+3. On a mobile device.
 == External Services ==
 
 Surcharge does not connect to any external service. It calls no remote APIs, loads no third-party scripts, fonts, or trackers, and sends nothing off your site. Its only stylesheet and script are served from the plugin folder and loaded just on the WooCommerce → Surcharge admin screen.
