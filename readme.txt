@@ -64,6 +64,11 @@ On the checkout order totals table, labelled with the name you set for each fee 
 
 Percentage fees are calculated from the cart contents subtotal including line tax, before shipping and other fees.
 
+
+= Does this plugin work on WordPress Multisite? =
+
+Yes. This plugin is compatible with WordPress Multisite. Network activate it or activate it on individual sites; each site keeps its own settings and data.
+
 == Screenshots ==
 
 1. The Surcharge settings screen with a fee configured.
